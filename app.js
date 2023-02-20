@@ -1,17 +1,20 @@
 const path = require("path");
-
 const express = require("express");
 const bodyParser = require("body-parser");
 
 const app = express();
 
-const adminRoutes = require("./routes/admin");
+app.set("view engine", "pug");
+// Set directors for template, this is not needed if files is already views
+// app.set('views', 'views');
+
+const adminDta = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/admin", adminRoutes);
+app.use("/admin", adminDta.routes);
 app.use(shopRoutes);
 
 app.use((req, res, next) => {
